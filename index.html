@@ -8,7 +8,15 @@
     <title>TiaR game</title>
 </head>
 <body>
-    <main>
+    <section class="loadingWindow">Loading..</section>
+
+    <section class="menuWindow">
+        <div class="subWindow">
+            <div class="btnPlayStart">Play!</div>
+        </div>
+    </section>
+
+    <section class="gameWindow">
         <section class="UI topUI">
             <div class="progressBar">
                 <div class="popUpPoints">+120</div>
@@ -16,12 +24,16 @@
             </div>
         </section>
         <section class="gameField">
-            <div data-type-Rock="default" class="rock" onclick="onClickRock(event)"></div>            
+            <div data-type-Rock="default" class="rock"></div>
         </section>
         <section class="UI botUI">
-            <div class="btnRestart" onclick="restartGame()">Restart</div>
+            <div class="btnRestart">Restart</div>
+            <div class="btnBackToMenu">Back to main menu</div>
         </section>
-    </main>
-    <script src="script/main.js"></script>
+    </section>
+
+
+
+    <script type="module" src="script/main.js"></script>
 </body>
 </html>
