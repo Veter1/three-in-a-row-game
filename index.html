@@ -8,15 +8,28 @@
     <title>TiaR game</title>
 </head>
 <body>
-    <section class="loadingWindow">Loading..</section>
+    <section class="mainWindow loadingWindow">Loading..</section>
 
-    <section class="menuWindow">
+    <section class="mainWindow menuWindow">
         <div class="subWindow">
-            <div class="btnPlayStart">Play!</div>
+            <button class="btnPlayStart">Play!</button>
         </div>
     </section>
 
-    <section class="gameWindow">
+    <section class="mainWindow gameOverWindow">
+        <div class="subWindow">
+            <div class="resultSection">
+                <!-- <div class="result"></div> -->
+            </div>
+            <div class="btnSection">
+                <button class="btn btnNextLvl">Go to next lvl</button>
+                <button class="btn btnRestart">Restart the same lvl</button>
+                <button class="btn btnBackToMenu">Back to menu</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="mainWindow gameWindow">
         <section class="UI topUI">
             <div class="progressBar">
                 <div class="popUpPoints">+120</div>

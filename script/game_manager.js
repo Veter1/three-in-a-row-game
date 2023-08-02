@@ -15,8 +15,11 @@ export let permissionToClick = true;
 
 // налаштування та запуск гри (з меню)
 export async function setupAndLaunch(getLvlTask){
+    for (let i in taskList.rocks)
+        taskList.rocks[i].remove();
+    taskList = {};
+
     maxScore = getLvlTask.maxScore;
-    // taskList = {};
     if (getLvlTask.rocks !== null){
         taskRocks = {};
         taskList.rocks = {};
