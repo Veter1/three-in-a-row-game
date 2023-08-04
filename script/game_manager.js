@@ -1,5 +1,6 @@
 import { gameOver, permissionToPlay} from './main.js';
 
+const lvlInform = document.getElementsByClassName('lvlInform')[0];
 const node_taskList = document.getElementsByClassName('taskList')[0];
 const taskItem = document.getElementsByClassName('taskItem')[0];
 const progressBar = document.getElementsByClassName('bar')[0];
@@ -9,12 +10,13 @@ const gameField = document.getElementsByClassName('gameField')[0];
 let rocksArr = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
 let destroyRocksArr = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
 let taskList = {}, taskRocks = null, taskBlocks = null, doTaskRocks = false, doTaskBlocks = false;
-let rockSize = 50, rockGap = 10, margine = 10, bgColor = 'white', currentScore = 0, maxScore = 1000;
+let rockSize = 50, rockGap = 10, margine = 10, bgColor = 'white', currentScore = 0, maxScore = 1000, starsCounter = 0;
 let oldSelectRockI = null, oldSelectRockJ = null, newSelectRockI = null, newSelectRockJ = null;
 export let permissionToClick = true;
 
 // налаштування та запуск гри (з меню)
-export async function setupAndLaunch(getLvlTask){
+export async function setupAndLaunch(getLvlTask, currentLvl){
+    starsCounter = 0;
     for (let i in taskList.rocks)
         taskList.rocks[i].remove();
     taskList = {};
@@ -38,7 +40,19 @@ export async function setupAndLaunch(getLvlTask){
         }     
         doTaskBlocks = true;
     }
-    start();
+
+    lvlInform.style = lvlInform.style.cssText + "top: -50%; transition-duration: 0.1s;";
+    lvlInform.textContent = (Number(currentLvl)+1)+' - рівень';
+    setTimeout(()=> lvlInformShow(), 1000);
+    setTimeout(()=> start(), 600);    
+}
+
+// демонстрація завдань рівня
+async function lvlInformShow(){
+    lvlInform.style = lvlInform.style.cssText + "top: 30%; transition-duration: 1s;";
+    setTimeout(()=>
+    lvlInform.style = lvlInform.style.cssText + "top: 110%; transition-duration: 1s;"
+    , 2000)    
 }
 
 // запуск гри
@@ -268,9 +282,22 @@ async function addScore(restart){
         currentScore += (counter * 10);
         let progres = Math.round(currentScore/maxScore*100);
 
-        // виграш, прогресс 100
-        if (progres >= 100)
+        // первіряємо чи отримали зірку
+        if (progres >= 100){
             progres = 100;
+            if (starsCounter == 2){
+                console.log('Ви отримали усі три зірки!');
+                starsCounter = 3;
+            }
+        }
+        else if (progres >= 65 && starsCounter == 1){
+            console.log('Ви отримали другу зірку!')
+            starsCounter = 2;
+        }
+        else if (progres >= 30 && starsCounter == 0){
+            console.log('Ви отримали першу зірку!')
+            starsCounter = 1;
+        }
     
         // демонструємо прогресс (полоска та число)
         progressBar.style = progressBar.style.cssText + "width: "+progres+"%";
@@ -280,8 +307,9 @@ async function addScore(restart){
             popUpPoints.style = popUpPoints.style.cssText + "opacity: 0; top: -10%";
         }, 1000)
     }
-    else if (currentScore >= maxScore)
-        console.log('you already have a max score of this lvl');
+    else if (currentScore >= maxScore){
+        // console.log('you already have a max score of this lvl');
+    }
 }
 
 // знищення каменів
@@ -387,21 +415,29 @@ async function checkTask(){
                                 anyProgress = true;
                                 taskRocks[k]--;
                                 activeTask--;
+                                if (taskRocks[k] >= 0){
+                                    taskList.rocks[k].children[0].textContent = 'X'+taskRocks[k];
+                                    taskList.rocks[k].style = taskList.rocks[k].style.cssText + "transform: scale(1.1)";
+                                    setTimeout(()=>{
+                                        taskList.rocks[k].style = taskList.rocks[k].style.cssText +
+                                        "transform: scale(1)"
+                                    }, 300);
+                                }
                                 if (taskRocks[k] === 0){
                                     console.log('ви виконали завдання з каменями № '+k);
                                     taskList.rocks[k].style = taskList.rocks[k].style.cssText + "transform: scale(1.2)";
                                     setTimeout(()=>{
                                         taskList.rocks[k].style = taskList.rocks[k].style.cssText +
-                                        "transform: scale(0.85); opacity: 0.5;"
+                                        "transform: scale(0.85); opacity: 0.1;"
                                     }, 400);
                                 }
                             }
                         }
                         if (anyProgress === true && activeTask === 0){
-                            console.log('ви виконали усі завдання з какменями..')
+                            // console.log('ви виконали усі завдання з какменями..')
                             doTaskRocks = false;
                             if (doTaskBlocks === false)
-                                setTimeout(()=>{ gameOver('win', currentScore) }, 1000);
+                                setTimeout(()=>{ gameOver('win', currentScore, starsCounter) }, 1000);
                         }
                     }
                 }
@@ -414,7 +450,7 @@ async function checkTask(){
     }
 }
 
-export async function restartGame(){
+async function restartGame(){
     // кнопка не активна якщо щось відбувається
     if (permissionToClick === false)
         return false;
