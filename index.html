@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <link rel="stylesheet" href="css/main.css">
     <title>TiaR game</title>
 </head>
-<body>
+<body class="notranslate">
     <section class="mainWindow loadingWindow">Loading..</section>
 
     <section class="mainWindow menuWindow">
@@ -20,20 +21,29 @@
     <section class="mainWindow lvlMapWindow">
         <div class="subWindow">
             <div class="lvl">test</div>
-            <button class="btn btnBackToMenu">X</button>
+            <button class="btn btnBackToMenu"></button>
         </div>        
     </section>
 
     <section class="mainWindow gameOverWindow">
         <div class="subWindow">
             <div class="resultSection">
-                <!-- <div class="result"></div> -->
+                <div class="stars">
+                    <div class="star star_1"></div>
+                    <div class="star star_2"></div>
+                    <div class="star star_3"></div>
+                </div>
+                <div class="score">
+                    <div class="scoreText">your score:</div>
+                    <div class="scoreCount"><span>999</span></div>
+                </div>
             </div>
             <div class="btnSection">
-                <button class="btn btnNextLvl">Go to next lvl</button>
-                <button class="btn btnRestart">Restart the same lvl</button>
-                <button class="btn btnBackToMenu">Back to menu</button>
+                <button class="btn btnBackToMenu"></button>
+                <button class="btn btnRestart"></button>
+                <button class="btn btnNextLvl"></button>
             </div>
+            <div class="header"><span>Результат</span></div>
         </div>
     </section>
 
@@ -42,6 +52,9 @@
             <div class="progressBar">
                 <div class="popUpPoints">+120</div>
                 <div class="bar"></div>
+                <div class="star star_1"></div>
+                <div class="star star_2"></div>
+                <div class="star star_3"></div>
             </div>
             <div class="taskBlock">
                 <p class="taskText">lvl task:</p>
@@ -54,8 +67,8 @@
             <div data-type-Rock="default" class="rock"></div>
         </section>
         <section class="UI botUI">
-            <div class="btnRestart">Restart</div>
-            <div class="btnBackToMenu">Back to main menu</div>
+            <div class="btnRestart"></div>
+            <div class="btnBackToMenu"></div>
         </section>
         <div class="lvlInform">test text</div>
     </section>

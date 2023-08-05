@@ -10,14 +10,17 @@ const menuWindow = document.getElementsByClassName('menuWindow')[0];
 const lvlMapWindow = document.getElementsByClassName('lvlMapWindow')[0];
 const gameWindow = document.getElementsByClassName('gameWindow')[0];
 const gameOverWindow = document.getElementsByClassName('gameOverWindow')[0];
+const starsInResult = gameOverWindow.getElementsByClassName('star');
+const scoreCountInResult = gameOverWindow.getElementsByClassName('scoreCount')[0];
 let userDevice = null; // phone or pc
 export let permissionToPlay = true;
 let progressData = [], lvlMap = [], selectLvl = 0, windowLoadSpeed = 800, windowOpacitySpeed = 400;
 let versionOfApp = '0.1'; 
 let lvlList = [{
     starsCountToOpen: 0,
-    maxScore: 200,
-    rocks: {'1': 3,'2':6 ,'3': 3},
+    maxScore: 2000,
+    rocks: {'1': 3,'2':3},
+    // rocks: {'1': 3,'2':6 ,'3': 3},
     blocks: null,/* ['2/3', '0/1'] */
 }, {
     starsCountToOpen: 1,
@@ -330,10 +333,18 @@ async function resultOfGame(score, stars){
     if (await updateUserProgress(false, score, stars))
         someTxt = 'New rocord!';
 
-    // show result window
-    let resultSection = gameOverWindow.children[0].children[0];
+    // show result window    
+    for (let i = 0; i < 3; i++){
+        if ((i+1) <= stars){
+            starsInResult[i].style = starsInResult[i].style.cssText +
+            "background: url('/img/fulledStar.png') 0 0/100% 100% no-repeat";
+        } else {
+            starsInResult[i].style = starsInResult[i].style.cssText +
+            "background: url('/img/emptyStar.png') 0 0/100% 100% no-repeat";
+        }
+    }
+    scoreCountInResult.textContent = score;
     gameOverWindow.style = gameOverWindow.style.cssText + "display: flex";
-    resultSection.textContent = someTxt+'\n'+'your score = '+score + '\n' + 'you got '+stars+' stars';
 }
 
 
