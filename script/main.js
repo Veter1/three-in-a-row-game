@@ -12,14 +12,16 @@ const gameWindow = document.getElementsByClassName('gameWindow')[0];
 const gameOverWindow = document.getElementsByClassName('gameOverWindow')[0];
 const starsInResult = gameOverWindow.getElementsByClassName('star');
 const scoreCountInResult = gameOverWindow.getElementsByClassName('scoreCount')[0];
+let btnNextInResult = gameOverWindow.getElementsByClassName('btnNextLvl')[0];
 let userDevice = null; // phone or pc
 export let permissionToPlay = true;
 let progressData = [], lvlMap = [], selectLvl = 0, windowLoadSpeed = 800, windowOpacitySpeed = 400;
+let countStars = 0;
 let versionOfApp = '0.1'; 
 let lvlList = [{
     starsCountToOpen: 0,
     maxScore: 2000,
-    rocks: {'1': 3,'2':3},
+    rocks: {'1': 3},
     // rocks: {'1': 3,'2':6 ,'3': 3},
     blocks: null,/* ['2/3', '0/1'] */
 }, {
@@ -34,7 +36,7 @@ let lvlList = [{
     blocks: null, /* ['0/4', '0/2'], */
 }];
 
-// localStorage.clear();
+localStorage.clear();
 
 window.onload = function(){ onLoadApp();}
 window.onerror = function(msg, url, lineNo, columnNo, error) { alert(msg+'\n'+url+'\n'+lineNo+'\n'+columnNo+'\n'+error); }
@@ -76,7 +78,7 @@ async function changeWindow(currentWindow, newWindow){
     }, windowLoadSpeed);
 }
 // оновлення відображення прогрессу рівнів
-async function updateLvlMap(onLoadApp, countStars){    
+async function updateLvlMap(onLoadApp){    
     // при першому завантаженні створюємо рівні на мапі
     if (onLoadApp){
         let lvlNode = lvlMapWindow.children[0].children[0];
@@ -90,17 +92,29 @@ async function updateLvlMap(onLoadApp, countStars){
     // задаємо нові властивості та значення рівням відповідно до прогессу
     for(let i in lvlList){
         if (Number(progressData[i][0]) == 1){
-            lvlMap[i].textContent = 'рівень доступний';
-        } else { lvlMap[i].textContent = 'рівень закритий' }
-        lvlMap[i].textContent += '\n потрібно зірок: '+lvlList[i].starsCountToOpen;
-        // lvlMap[i].textContent += '\n ви маєте зірок: '+countStars;
-        lvlMap[i].textContent += '\n зірок зароблених на цьому рівні: '+progressData[i][2];
-
-        // виділяємо обраний рівень
-        if (selectLvl == i)
-            lvlMap[i].style = lvlMap[i].style.cssText + "border: solid 3px greenyellow";
-        else
-            lvlMap[i].style = lvlMap[i].style.cssText + "border: none";
+            // пишемо номер рівня
+            lvlMap[i].children[1].textContent = Number(i)+1;
+            lvlMap[i].style = lvlMap[i].style.cssText +
+            "background: url('../img/openLvlBG.png') 0 0/100% 100% no-repeat";
+            // відмічаємо зірки на рівні
+            lvlMap[i].children[0].style = lvlMap[i].children[0].style.cssText + "display: flex";
+            for (let j = 0; j < 3; j++){
+                // зірка є
+                if (progressData[i][2] >= (j+1)){
+                    lvlMap[i].children[0].children[j].style = lvlMap[i].children[0].children[j].style.cssText +
+                    "opacity: 1";
+                }
+                // нема зірки
+                else{
+                    lvlMap[i].children[0].children[j].style = lvlMap[i].children[0].children[j].style.cssText +
+                    "opacity: 0.3";
+                }
+            }
+        } else {
+            lvlMap[i].style = lvlMap[i].style.cssText +
+            "background: url('../img/closeLvlBG.png') 0 0/100% 100% no-repeat";
+            lvlMap[i].children[0].style = lvlMap[i].children[0].style.cssText + "display: none";
+        }
     }
 }
 // оновлення прогрессу користувача
@@ -148,18 +162,18 @@ async function updateUserProgress(onLoadApp, newScore, NewStars){
         }
 
         // рахуємо його зірки
-        let countStars = 0;
+        countStars = 0;
         for (let i in progressMas)
             countStars += Number(progressMas[i].split(',')[2]);
 
-        updateLvlMap(onLoadApp, countStars);
+        updateLvlMap(onLoadApp);
     }
     // оновлення данних в процессі гри
     else if (localStorage.length != 0 && !onLoadApp){
         console.log('оновлення данних в процессі гри..');
         if (progressData[selectLvl][1] < newScore){
             let onNewStars = false;
-            let countStars = 0;
+            countStars = 0;
         
             // записуємо нові данні про поточний рівень
             progressData[selectLvl][1] = newScore;
@@ -191,7 +205,7 @@ async function updateUserProgress(onLoadApp, newScore, NewStars){
             localStorage.setItem('progress', newProgressData);
         
             if (onNewStars)
-                updateLvlMap(onLoadApp, countStars);    
+                updateLvlMap(onLoadApp);    
         } else {
             console.log('нових рекордів не зроблено :(');
         }
@@ -218,13 +232,20 @@ menuWindow.addEventListener('click', async (event)=>{
 // вупрацювання кнопок у вікні "результати гри"
 gameOverWindow.addEventListener('click', async (event)=>{
     if (event.target.classList.contains('btnNextLvl')){
-        if ((selectLvl+1) <= (lvlList.length-1)){
+        // якщо наступний рівень відкритий        
+        if (lvlList[Number(selectLvl)+1].starsCountToOpen <= countStars){
             selectLvl++;
             gameWindow.style = gameWindow.style.cssText + "display: none";  
             await changeWindow(gameOverWindow, gameWindow);
             startGame();
-        } else {
-            console.log('це був останній рівень')
+        }
+        // якщо ні      
+         else{
+            let msg = btnNextInResult.children[0].cloneNode(true);
+            msg.style = msg.style.cssText + "display: block; top: 0; transition-duration: 2.5s; opacity: 1;";
+            btnNextInResult.append(msg);
+            setTimeout(()=> msg.style = msg.style.cssText + "top: -300%; opacity: 0;", 50);
+            setTimeout(()=>{ msg.style = msg.style.cssText + "display: none;"; msg.remove(); }, 2400);
         }
     } else if (event.target.classList.contains('btnRestart')){
         await changeWindow(gameOverWindow, gameWindow);
@@ -235,16 +256,24 @@ gameOverWindow.addEventListener('click', async (event)=>{
     }
 })
 lvlMapWindow.addEventListener('click', async (event)=>{
-    if (event.target.classList.contains('lvl')){
+    if (event.target.classList.contains('lvl') || event.target.parentNode.classList.contains('lvl')){
         for (let i in lvlMap)
-            if (event.target == lvlMap[i] && Number(progressData[i][0]) == 1){
+            // рівень відкритий
+            if ((event.target == lvlMap[i] || event.target.parentNode == lvlMap[i]) && Number(progressData[i][0]) == 1){
                 selectLvl = i;
                 updateLvlMap(false);
                 await changeWindow(lvlMapWindow, gameWindow);
                 startGame();
             }
-            else if (event.target == lvlMap[i] && Number(progressData[i][0]) == 0)
-                console.log('lvl № '+i+' is closed')
+            // рівень закритий
+            else if ((event.target == lvlMap[i] || event.target.parentNode == lvlMap[i]) && Number(progressData[i][0]) == 0){
+                console.log('lvl № '+i+' is closed');
+                let msg = event.target.children[2].cloneNode(true);
+                msg.style = msg.style.cssText + "display: block; top: 0; transition-duration: 2.5s; opacity: 1;";
+                event.target.append(msg);
+                setTimeout(()=> msg.style = msg.style.cssText + "top: -300%; opacity: 0;", 50);
+                setTimeout(()=>{ msg.style = msg.style.cssText + "display: none;"; msg.remove(); }, 2400);
+            }
     } else if (event.target.classList.contains('btnBackToMenu'))
         await changeWindow(lvlMapWindow, menuWindow);
 
@@ -319,8 +348,7 @@ export async function gameOver(status, score, stars){
                 break;
             }
             case 'backToMenuFromResultWindow':{
-                // console.log('you go back to menu');
-                await changeWindow(gameOverWindow, menuWindow);
+                await changeWindow(gameOverWindow, lvlMapWindow);
                 break;
             }
         }
@@ -343,6 +371,19 @@ async function resultOfGame(score, stars){
             "background: url('/img/emptyStar.png') 0 0/100% 100% no-repeat";
         }
     }
+    
+    if ((selectLvl+1) <= (lvlList.length-1)){
+        if (lvlList[Number(selectLvl)+1].starsCountToOpen <= countStars)
+            btnNextInResult.style = btnNextInResult.style.cssText +
+            "background: url('../img/btnNext.png') 0 0/100% 100% no-repeat";
+        else
+            btnNextInResult.style = btnNextInResult.style.cssText +
+            "background: url('../img/btnNextLock.png') 0 0/100% 100% no-repeat";
+    } else {
+        console.log('це був останній рівень');
+        btnNextInResult.style = btnNextInResult.style.cssText + "display: none";
+    }
+
     scoreCountInResult.textContent = score;
     gameOverWindow.style = gameOverWindow.style.cssText + "display: flex";
 }

@@ -73,22 +73,22 @@ function start(){
         switch(i){
             case '1':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('/img/bubble_1.png') 0 0/100% 100% no-repeat";
+                "background: url('../img/bubble_1.png') 0 0/100% 100% no-repeat";
                 break;
             }
             case '2':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('/img/bubble_2.png') 0 0/100% 100% no-repeat";
+                "background: url('../img/bubble_2.png') 0 0/100% 100% no-repeat";
                 break;
             }
             case '3':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('/img/bubble_3.png') 0 0/100% 100% no-repeat";         
+                "background: url('../img/bubble_3.png') 0 0/100% 100% no-repeat";         
                 break;
             }
             case '4':{  
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('/img/bubble_4.png') 0 0/100% 100% no-repeat";           
+                "background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat";           
                 break;
             }
         }
@@ -366,16 +366,16 @@ async function destroyRocks(checkFieldAfterSwap, ifRestart){
                     // set color
                     let x = Math.random();
                     if (x >= 0.75){
-                        bgColor = "background: url('/img/bubble_1.png') 0 0/100% 100% no-repeat;";
+                        bgColor = "background: url('../img/bubble_1.png') 0 0/100% 100% no-repeat;";
                         destroyRocksArr[i][j].dataset.typeRock = '1';
                     } else if (x >= 0.5){
-                        bgColor = "background: url('/img/bubble_2.png') 0 0/100% 100% no-repeat;";
+                        bgColor = "background: url('../img/bubble_2.png') 0 0/100% 100% no-repeat;";
                         destroyRocksArr[i][j].dataset.typeRock = '2';
                     } else if (x >= 0.25){
-                        bgColor = "background: url('/img/bubble_3.png') 0 0/100% 100% no-repeat;";
+                        bgColor = "background: url('../img/bubble_3.png') 0 0/100% 100% no-repeat;";
                         destroyRocksArr[i][j].dataset.typeRock = '3';
                     } else {
-                        bgColor = "background: url('/img/bubble_4.png') 0 0/100% 100% no-repeat;";
+                        bgColor = "background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat;";
                         destroyRocksArr[i][j].dataset.typeRock = '4';
                     }  
                     destroyRocksArr[i][j].style = destroyRocksArr[i][j].style.cssText +

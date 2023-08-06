@@ -5,12 +5,16 @@
 
 body{
     min-height: 100%;
-    min-width: 100%;
+    width: 100%;
     overflow: hidden;
     background: url('../img/BG.png') 0 0/100% 100% repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .mainWindow{
+    max-width: 1024px;
     position: absolute;
     /* transition-duration: 1s;
     opacity: 0; */
@@ -80,21 +84,74 @@ body{
         flex-wrap: wrap;
         width: 96%;
         height: 65%;
-        background: url('.../img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        padding: 14% 7% 20% 5%;
         .lvl{
-            width: 120px;
-            height: 120px;
-            background-color: whitesmoke;   
-            text-align: center;
-            /* border: solid 3px greenyellow; on select lvl */
+            position: relative;
+            /* flex: 1 1 auto; */
+            width: 90px;
+            height: 90px;
+            background: url('../img/closeLvlBG.png') 0 0/100% 100% no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .stars{
+                position: absolute;
+                top: -10%;
+                left: 0;
+                width: 100%;
+                height: 35%;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                .star{
+                    background: url('../img/star.png') 0 0/100% 100% no-repeat;
+                    height: 90%;
+                    width: 25%;                    
+                    &.star_1{ margin-top: 5% }
+                    &.star_2{ margin-bottom: 5% }
+                    &.star_3{ margin-top: 5%; opacity: 0.3; }
+                }
+            }
+            .number{
+                -webkit-text-stroke: 2px blue;
+                font-size: 36px;
+            }
+            .inform{
+                position: absolute;
+                transition-duration: 2.5s;
+                font: italic small-caps bold 14px/2 cursive;
+                text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                         0px 8px 13px rgba(0,0,0,0.1),
+                         0px 18px 23px rgba(0,0,0,0.1);
+                color: black;
+                display: none;
+                left: 40%;
+                top: 0;
+            }
+        }
+        .header{
+            position: absolute;
+            width: 100%;
+            height: 20%;
+            top: -5%;
+            left: 0;
+            background: url('../img/headerBG_1.png') 0 0/100% 100% no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .headerText{
+                font-size: 32px;
+                margin-bottom: 5%;
+            }
         }
         .btnBackToMenu{
             position: absolute;
-            width: 10%;
-            height: 10%;
-            top: 0;
-            right: 1%;
-            background: url('../img/btnCancel.png') 0 0/100% 100% no-repeat;
+            width: 15%;
+            height: 15%;
+            bottom: 9%;
+            left: 4%;
+            background: url('../img/btnBackBG.png') 0 0/100% 100% no-repeat;
             transition-duration: 0.6s;
             &:hover{ transform: scale(1.3) }
         }
@@ -360,12 +417,25 @@ body{
                     background: url('../img/btnRestart.png') 0 0/100% 100% no-repeat;                     
                 }
                 &.btnNextLvl{
-                    background: url('../img/btnNext.png') 0 0/100% 100% no-repeat;                     
+                    background: url('../img/btnNext.png') 0 0/100% 100% no-repeat;
+                    position: relative;
+                    .inform{
+                        position: absolute;
+                        transition-duration: 2.5s;
+                        font: italic small-caps bold 14px/2 cursive;
+                        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                                 0px 8px 13px rgba(0,0,0,0.1),
+                                 0px 18px 23px rgba(0,0,0,0.1);
+                        color: black;
+                        display: none;
+                        left: 50%;
+                        top: 0;
+                    }
                 }
             }
         }
         .header{
-            background: url('../img/header_BG.png') 0 0/100% 100% no-repeat;
+            background: url('../img/headerBG_1.png') 0 0/100% 100% no-repeat;
             position: absolute;
             top: -8%;
             left: 1%;
