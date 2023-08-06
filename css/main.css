@@ -1,13 +1,13 @@
 /* Обнуляющий ксс */
 @import url(null.css);
 
-/* background: url('./img/buttonBG.png') 0 0/100% 100% no-repeat; */
+/* background: url('../img/buttonBG.png') 0 0/100% 100% no-repeat; */
 
 body{
     min-height: 100%;
     min-width: 100%;
     overflow: hidden;
-    background: url('./img/BG.png') 0 0/100% 100% repeat;
+    background: url('../img/BG.png') 0 0/100% 100% repeat;
 }
 
 .mainWindow{
@@ -24,7 +24,7 @@ body{
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background: url('./img/BG.png') 0 0/100% 100% no-repeat;
+    background: url('../img/BG.png') 0 0/100% 100% no-repeat;
     font: italic small-caps bold 24px/2 cursive;
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1),
@@ -39,7 +39,7 @@ body{
     width: 100%;
     height: 100%;
     .subWindow{
-        background: url('./img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
         width: 60%;
         height: 35%;
         display: flex;
@@ -49,7 +49,7 @@ body{
         gap: 10px;
         
         .btn{
-            background: url('./img/btnBG_1.png') 0 0/100% 100% no-repeat;
+            background: url('../img/btnBG_1.png') 0 0/100% 100% no-repeat;
             height: 25%;
             width: 50%;
             font: italic small-caps bold 24px/2 cursive;
@@ -80,7 +80,7 @@ body{
         flex-wrap: wrap;
         width: 96%;
         height: 65%;
-        background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        background: url('.../img/windowBG_4.png') 0 0/100% 100% no-repeat;
         .lvl{
             width: 120px;
             height: 120px;
@@ -94,7 +94,7 @@ body{
             height: 10%;
             top: 0;
             right: 1%;
-            background: url('./img/btnCancel.png') 0 0/100% 100% no-repeat;
+            background: url('../img/btnCancel.png') 0 0/100% 100% no-repeat;
             transition-duration: 0.6s;
             &:hover{ transform: scale(1.3) }
         }
@@ -154,7 +154,7 @@ body{
                   top: -38px;
                   width: 40px;
                   height: 40px;
-                  background: url('./img/star.png') 0 0/100% 100% no-repeat;
+                  background: url('../img/star.png') 0 0/100% 100% no-repeat;
                   position: absolute;
                   opacity: 0.3;
                   transition-duration: 0.5s;
@@ -211,7 +211,7 @@ body{
                 /* max-height: 80px; */
                 height: 50px;
                 width: 50px;
-                background: url('./img/btnRestart.png') 0 0/100% 100% no-repeat;
+                background: url('../img/btnRestart.png') 0 0/100% 100% no-repeat;
                 transition-duration: 0.6s;
                 display: flex;
                 align-items: center;
@@ -223,7 +223,7 @@ body{
                 /* max-height: 80px; */
                 height: 50px;
                 width: 50px;
-                background: url('./img/btnToMenu.png') 0 0/100% 100% no-repeat;
+                background: url('../img/btnToMenu.png') 0 0/100% 100% no-repeat;
                 transition-duration: 0.6s;
                 display: flex;
                 align-items: center;
@@ -240,7 +240,7 @@ body{
         .rock{
             width: 100%;
             height: 100%;
-            background: url('./img/bubble_4.png') 0 0/100% 100% no-repeat;
+            background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat;
             /* background-color: brown; */
             position: absolute;
             left: 50px;
@@ -279,7 +279,7 @@ body{
         width: 80%;
         height: 65%;
         padding: 10% 5% 5% 3%;
-        background: url('./img/resultWindowBG_1.png') 0 0/100% 100% no-repeat;
+        background: url('../img/resultWindowBG_1.png') 0 0/100% 100% no-repeat;
         .resultSection{
             display: flex;
             align-items: center;
@@ -294,7 +294,7 @@ body{
                 align-items: center;
                 justify-content: space-evenly;
                 .star{
-                    background: url('./img/emptyStar.png') 0 0/100% 100% no-repeat;
+                    background: url('../img/emptyStar.png') 0 0/100% 100% no-repeat;
                     height: 75%;
                     width: 32%;
                     &.star_1{ margin-top: 10%; }
@@ -319,7 +319,7 @@ body{
                 }
                 .scoreCount{
                     flex: 0 1 70%;
-                    background: url('./img/windowBG_2.png') 0 0/100% 100% no-repeat;
+                    background: url('../img/windowBG_2.png') 0 0/100% 100% no-repeat;
                     height: 10%;
                     width: 50%;
                     display: flex;
@@ -354,18 +354,18 @@ body{
                     cursor: pointer;
                 }
                 &.btnBackToMenu{
-                    background: url('./img/btnToMenu.png') 0 0/100% 100% no-repeat;                     
+                    background: url('../img/btnToMenu.png') 0 0/100% 100% no-repeat;                     
                 }
                 &.btnRestart{
-                    background: url('./img/btnRestart.png') 0 0/100% 100% no-repeat;                     
+                    background: url('../img/btnRestart.png') 0 0/100% 100% no-repeat;                     
                 }
                 &.btnNextLvl{
-                    background: url('./img/btnNext.png') 0 0/100% 100% no-repeat;                     
+                    background: url('../img/btnNext.png') 0 0/100% 100% no-repeat;                     
                 }
             }
         }
         .header{
-            background: url('./img/header_BG.png') 0 0/100% 100% no-repeat;
+            background: url('../img/header_BG.png') 0 0/100% 100% no-repeat;
             position: absolute;
             top: -8%;
             left: 1%;
