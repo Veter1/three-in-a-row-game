@@ -1,7 +1,13 @@
 /* Обнуляющий ксс */
 @import url(null.css);
 
-/* background: url('../img/buttonBG.png') 0 0/100% 100% no-repeat; */
+*{
+    font: italic small-caps bold 24px/2 cursive;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
+    color: black;
+}
 
 body{
     min-height: 100%;
@@ -29,23 +35,20 @@ body{
     width: 100%;
     height: 100%;
     background: url('../img/BG.png') 0 0/100% 100% no-repeat;
-    font: italic small-caps bold 24px/2 cursive;
-    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-             0px 8px 13px rgba(0,0,0,0.1),
-             0px 18px 23px rgba(0,0,0,0.1);
-    color: black;
 }
 
 .menuWindow{
-    display: flex;
+    /* display: flex; */
+    display: none;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
     .subWindow{
         background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
-        width: 60%;
-        height: 35%;
+        max-width: 270px;
+        width: 40%;
+        height: 30%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -53,25 +56,28 @@ body{
         gap: 10px;
         
         .btn{
-            background: url('../img/btnBG_1.png') 0 0/100% 100% no-repeat;
-            height: 25%;
-            width: 50%;
-            font: italic small-caps bold 24px/2 cursive;
-            text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                     0px 8px 13px rgba(0,0,0,0.1),
-                     0px 18px 23px rgba(0,0,0,0.1);
-            color: black;
-            transition-duration: 0.6s;
-            &:hover{
-                transform: scale(1.2);
-                cursor: pointer;
+            &.btnSelectLvl{
+                background: url('../img/btnPlayBG.png') 0 0/100% 100% no-repeat;
+                height: 60%;
+                width: 60%;
+                font: italic small-caps bold 24px/2 cursive;
+                text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                         0px 8px 13px rgba(0,0,0,0.1),
+                         0px 18px 23px rgba(0,0,0,0.1);
+                color: black;
+                transition-duration: 0.6s;
+                &:hover{
+                    transform: scale(1.2);
+                    cursor: pointer;
+                }
             }
         }
     }
 }
 
 .lvlMapWindow{
-    display: flex;
+    /* display: flex; */
+    display: none;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -82,6 +88,7 @@ body{
         align-items: center;
         justify-content: space-evenly;
         flex-wrap: wrap;
+        max-width: 640px;
         width: 96%;
         height: 65%;
         background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
@@ -159,7 +166,8 @@ body{
 }
 
 .gameWindow{
-    display: flex;
+    /* display: flex; */
+    display: none;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
@@ -175,14 +183,14 @@ body{
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 10px;
+            /* gap: 10px; */
             z-index: 0;
     
             .progressBar{
-                margin-top: 2%;
+                margin-top: 45px;
                 position: relative;
                 max-width: 400px;
-                width: 90%;
+                width: 85%;
                 height: 30px;
                 background-color: lightcoral;
                 z-index: 2;
@@ -215,9 +223,9 @@ body{
                   position: absolute;
                   opacity: 0.3;
                   transition-duration: 0.5s;
-                  &.star_1{ left: 25% }
-                  &.star_2{ left: 60% }
-                  &.star_3{ left: 95% }
+                  &.star_1{ left: 22% }
+                  &.star_2{ left: 56% }
+                  &.star_3{ left: 90% }
                 }
             }
             .taskBlock{
@@ -225,8 +233,11 @@ body{
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
-                width: 95%;
+                width: 65%;
+                height: 60%;
                 transition-duration: 1s;
+                border-bottom: dashed 1px lightcoral;
+                /* background: url('../img/windowBG_1.png') 0 0/100% 100% no-repeat; */
                 .taskText{
                     color: red;                    
                 }
@@ -246,7 +257,7 @@ body{
                         border-radius: 50%;
                         box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
                         transition-duration: 0.5s;
-                        padding-top: 0.5%;
+                        /* padding-top: 0.5%; */
                         .taskItemText{
                             font: italic small-caps bold 16px/2 cursive;
                             padding-left: 110%;
@@ -297,8 +308,10 @@ body{
         .rock{
             width: 100%;
             height: 100%;
+            background: url('../img/bubble_1.png') 0 0/100% 100% no-repeat;
+            background: url('../img/bubble_2.png') 0 0/100% 100% no-repeat;
+            background: url('../img/bubble_3.png') 0 0/100% 100% no-repeat;
             background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat;
-            /* background-color: brown; */
             position: absolute;
             left: 50px;
             top: 500px;
@@ -321,7 +334,8 @@ body{
 
 .gameOverWindow{
     z-index: 1;
-    display: flex;
+    /* display: flex; */
+    display: none;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -333,6 +347,7 @@ body{
         align-items: center;
         justify-content: space-evenly;
         flex-direction: column;
+        max-width: 380px;
         width: 80%;
         height: 65%;
         padding: 10% 5% 5% 3%;
@@ -417,6 +432,7 @@ body{
                     background: url('../img/btnRestart.png') 0 0/100% 100% no-repeat;                     
                 }
                 &.btnNextLvl{
+                    background: url('../img/btnNextLock.png') 0 0/100% 100% no-repeat;
                     background: url('../img/btnNext.png') 0 0/100% 100% no-repeat;
                     position: relative;
                     .inform{
@@ -444,7 +460,7 @@ body{
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-bottom: 5%;
+            padding-bottom: 10%;
         }
     }
 }

@@ -1,6 +1,11 @@
 import { gameOver, permissionToPlay} from './main.js';
 
-const lvlInform = document.getElementsByClassName('lvlInform')[0];
+// const lvlInform = document.getElementsByClassName('lvlInform')[0];
+
+const bubbleSound = new Audio("../sound/bubbleSound_3.mp3");
+const bubbleSound2 = new Audio("../sound/bubbleSound_3.mp3");
+const bubbleSound3 = new Audio("../sound/bubbleSound_3.mp3");
+
 const node_taskList = document.getElementsByClassName('taskList')[0];
 const taskItem = document.getElementsByClassName('taskItem')[0];
 const starsNode = document.getElementsByClassName("progressBar")[0].getElementsByClassName("star");
@@ -16,7 +21,8 @@ let oldSelectRockI = null, oldSelectRockJ = null, newSelectRockI = null, newSele
 export let permissionToClick = true;
 
 // налаштування та запуск гри (з меню)
-export async function setupAndLaunch(getLvlTask, currentLvl){
+export async function setupAndLaunch(getLvlTask, volume){
+    bubbleSound.volume = volume;
     starsCounter = 0;
     for (let i in taskList.rocks)
         taskList.rocks[i].remove();
@@ -41,19 +47,7 @@ export async function setupAndLaunch(getLvlTask, currentLvl){
         }     
         doTaskBlocks = true;
     }
-
-    lvlInform.style = lvlInform.style.cssText + "top: -50%; transition-duration: 0.1s;";
-    lvlInform.textContent = (Number(currentLvl)+1)+' - рівень';
-    setTimeout(()=> lvlInformShow(), 1000);
-    setTimeout(()=> start(), 600);    
-}
-
-// демонстрація завдань рівня
-async function lvlInformShow(){
-    lvlInform.style = lvlInform.style.cssText + "top: 30%; transition-duration: 1s;";
-    setTimeout(()=>
-    lvlInform.style = lvlInform.style.cssText + "top: 110%; transition-duration: 1s;"
-    , 2000)    
+    start();    
 }
 
 // запуск гри
@@ -352,8 +346,10 @@ async function addScore(restart){
 // знищення каменів
 async function destroyRocks(checkFieldAfterSwap, ifRestart){
     // check task progress
-    if (!ifRestart)
+    if (!ifRestart){
+        // bubbleSound.play();
         await checkTask();
+    }
 
     // приховуємо камені, видаляємо з основного массиву та створюємо нові
     for (let i = 0; i < destroyRocksArr.length; i++)
@@ -380,13 +376,17 @@ async function destroyRocks(checkFieldAfterSwap, ifRestart){
                     }  
                     destroyRocksArr[i][j].style = destroyRocksArr[i][j].style.cssText +
                     "transform: scale(1); top: -100px; "+bgColor;
-                }, 500);                
+                }, 500);
+                if (!ifRestart){                    
+                    bubbleSound.play(),
+                    setTimeout(()=>bubbleSound2.play(), 50)
+                    setTimeout(()=>bubbleSound3.play(), 100)
+                }
             }
         }
 
     // pause for end animation
     await new Promise((resolve)=>{setTimeout(()=>{resolve('done')}, 600)})
-    // console.log('goTo create rocks');
 
     // замощуємо нові камені    
     for (let i = (rocksArr.length-1); i > -1; i--)
