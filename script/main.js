@@ -1,4 +1,3 @@
-
 import {
     setupAndLaunch as launchGame,
     onClickRock as onClickRockFunction,
@@ -14,7 +13,8 @@ const starsInResult = gameOverWindow.getElementsByClassName('star');
 const scoreCountInResult = gameOverWindow.getElementsByClassName('scoreCount')[0];
 let btnNextInResult = gameOverWindow.getElementsByClassName('btnNextLvl')[0];
 
-const mainThemeSound = new Audio("../sound/mainTheme_2.mp3");
+const mainThemeSound = document.getElementsByClassName('mainTheme_2')[0];
+// const mainThemeSound = new Audio(someSound);
 const onWinSound = new Audio("../sound/onWin_tada.mp3");
 const popUpSound = new Audio("../sound/popUp_1_1.mp3");
 const onClickSound = new Audio("../sound/popUp_2_1.mp3");

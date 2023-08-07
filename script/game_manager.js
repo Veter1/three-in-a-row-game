@@ -6,6 +6,8 @@ const bubbleSound = new Audio("../sound/bubbleSound_3.mp3");
 const bubbleSound2 = new Audio("../sound/bubbleSound_3.mp3");
 const bubbleSound3 = new Audio("../sound/bubbleSound_3.mp3");
 
+const bubble4Test = document.getElementsByClassName('res')[0].children[1];
+
 const node_taskList = document.getElementsByClassName('taskList')[0];
 const taskItem = document.getElementsByClassName('taskItem')[0];
 const starsNode = document.getElementsByClassName("progressBar")[0].getElementsByClassName("star");
@@ -67,12 +69,12 @@ function start(){
         switch(i){
             case '1':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('../img/bubble_1.png') 0 0/100% 100% no-repeat";
+                "background: url('/img/bubble_1.png') 0 0/100% 100% no-repeat";
                 break;
             }
             case '2':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('../img/bubble_2.png') 0 0/100% 100% no-repeat";
+                "background: url('./img/bubble_2.png') 0 0/100% 100% no-repeat";
                 break;
             }
             case '3':{
@@ -81,8 +83,8 @@ function start(){
                 break;
             }
             case '4':{  
-                taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat";           
+                taskList.rocks[i].style = taskList.rocks[i].style.cssText + bubble4Test.style.cssText;
+                // "background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat";           
                 break;
             }
         }
