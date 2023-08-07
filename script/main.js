@@ -14,7 +14,10 @@ const starsInResult = gameOverWindow.getElementsByClassName('star');
 const scoreCountInResult = gameOverWindow.getElementsByClassName('scoreCount')[0];
 let btnNextInResult = gameOverWindow.getElementsByClassName('btnNextLvl')[0];
 
-const mainThemeSound = new Audio("../sound/mainTheme_2.mp3");
+const lvlSound1_2 = new Audio("../sound/lvl1_2.mp3");
+const lvlSound3_4 = new Audio("../sound/lvl3_4.mp3");
+const lvlSound5_6 = new Audio("../sound/lvl5_6.mp3");
+const mainThemeSound = new Audio("../sound/mainTheme.mp3");
 const addScoreSound = new Audio("../sound/bubbleSound_2_1.mp3");
 const onWinSound = new Audio("../sound/onWin.mp3");
 const popUpSound = new Audio("../sound/popUp_1_1.mp3");
@@ -28,37 +31,43 @@ let countStars = 0, onClickSoundSwitcher = 0, anyInteract = false, permissionToS
 let versionOfApp = '0.1'; 
 let lvlList = [{
     starsCountToOpen: 0,
-    maxScore: 800,
+    maxScore: 900,
     rocks: {'1': 3,'2':6 ,'3': 3},
     blocks: null, /* приклад: ['2/3', '0/1'] */
+    playFieldHoles: ['0/0', '0/5', '5/0', '5/5'],
 }, {
     starsCountToOpen: 1,
-    maxScore: 1000,
+    maxScore: 1200,
     rocks: {'4': 6, '3': 6, '1': 3},
     blocks: null,
+    playFieldHoles: ['1/1', '1/4', '4/1', '4/4'],
 }, {
     starsCountToOpen: 3,
-    maxScore: 1200,
+    maxScore: 1500,
     rocks: {'1': 9, '2': 12},
     blocks: null,
+    playFieldHoles: ['0/0', '0/5', '5/0', '5/5', '1/1', '1/4', '4/1', '4/4'],
 }, {
     starsCountToOpen: 6,
-    maxScore: 1400,
+    maxScore: 1800,
     rocks: {'3': 6, '2': 6, '1': 6},
     blocks: null,
+    playFieldHoles: ['2/2', '2/3', '3/2', '3/3'],
 }, {
     starsCountToOpen: 10,
-    maxScore: 1600,
+    maxScore: 2100,
     rocks: {'1': 15, '2': 3, '3': 6},
     blocks: null,
+    playFieldHoles: [ '2/0', '3/0', '2/5', '3/5'],
 }, {
     starsCountToOpen: 15,
-    maxScore: 2000,
+    maxScore: 2500,
     rocks: {'1': 21, '2': 18, '3': 15},
     blocks: null,
+    playFieldHoles: [ '0/2', '0/3', '5/2', '5/3', '2/0', '3/0', '2/5', '3/5'],
 }];
 
-localStorage.clear();
+// localStorage.clear();
 
 window.onload = function(){ onLoadApp();}
 window.onerror = function(msg, url, lineNo, columnNo, error) { alert(msg+'\n'+url+'\n'+lineNo+'\n'+columnNo+'\n'+error); }
@@ -107,10 +116,10 @@ async function changeWindow(currentWindow, newWindow){
 async function updateLvlMap(onLoadApp){    
     // при першому завантаженні створюємо рівні на мапі
     if (onLoadApp){
-        let lvlNode = lvlMapWindow.children[0].children[0];
+        let lvlNode = lvlMapWindow.children[0].children[0].children[0];
         for(let i in lvlList){
             lvlMap[i] = lvlNode.cloneNode(true);
-            lvlMapWindow.children[0].append(lvlMap[i]);
+            lvlMapWindow.children[0].children[0].append(lvlMap[i]);
         }
         lvlNode.remove();
     }
@@ -248,6 +257,9 @@ function changeVolume(type){
     switch(type){
         case 'onloadApp':{
             mainThemeSound.volume = 0.3;
+            lvlSound1_2.volume = 0.3;
+            lvlSound3_4.volume = 0.3;
+            lvlSound5_6.volume = 0.3;
             onWinSound.volume = 0.7;
             addScoreSound.volume = 0.4;
             popUpSound.volume = 0.5;
@@ -265,7 +277,7 @@ function changeVolume(type){
                 popUpSound.volume = 0;
                 onClickSound.volume = 0;
                 onClickSound2.volume = 0;
-                menuWindow.children[0].children[1].style = menuWindow.children[0].children[1].style.cssText +
+                menuWindow.children[1].style = menuWindow.children[1].style.cssText +
                 "background: url('../img/btnSoundOffBG.png') 0 0/100% 100% no-repeat";
             } else{
                 SoundVolume = 1;
@@ -274,7 +286,7 @@ function changeVolume(type){
                 popUpSound.volume = 0.5;
                 onClickSound.volume = 0.5;
                 onClickSound2.volume = 0.5;
-                menuWindow.children[0].children[1].style = menuWindow.children[0].children[1].style.cssText +
+                menuWindow.children[1].style = menuWindow.children[1].style.cssText +
                 "background: url('../img/btnSoundOnBG.png') 0 0/100% 100% no-repeat";
             }
             break;
@@ -283,13 +295,19 @@ function changeVolume(type){
             if (mainThemeSound.volume != 0){
                 musicVolume = 0;
                 mainThemeSound.volume = 0;
-                menuWindow.children[0].children[2].style = menuWindow.children[0].children[2].style.cssText +
+                lvlSound1_2.volume = 0;
+                lvlSound3_4.volume = 0;
+                lvlSound5_6.volume = 0;
+                menuWindow.children[2].style = menuWindow.children[2].style.cssText +
                 "background: url('../img/btnMusicOffBG.png') 0 0/100% 100% no-repeat";
             }
             else{
                 musicVolume = 1;
                 mainThemeSound.volume = 0.3;
-                menuWindow.children[0].children[2].style = menuWindow.children[0].children[2].style.cssText +
+                lvlSound1_2.volume = 0.3;
+                lvlSound3_4.volume = 0.3;
+                lvlSound5_6.volume = 0.3;
+                menuWindow.children[2].style = menuWindow.children[2].style.cssText +
                 "background: url('../img/btnMusicOnBG.png') 0 0/100% 100% no-repeat";
             }
             break;
@@ -390,6 +408,17 @@ helpWindow.addEventListener('click', async (event)=>{
 })
 // завантаження рівня та початок гри
 function startGame(){
+    gameWindow.style = gameWindow.style.cssText +
+    "background: url('../img/lvlBG"+(Number(selectLvl)+1)+".jpg') 0 0/100% 100% no-repeat;";
+    // if (musicVolume == 1){
+    //     mainThemeSound.pause();
+    //     if (selectLvl < 2)
+    //         lvlSound1_2.play();
+    //     else if (selectLvl > 1 && selectLvl < 4)
+    //         lvlSound3_4.play();
+    //     else if (selectLvl > 3)
+    //         lvlSound5_6.play();
+    // }
     permissionToPlay = true;
     launchGame(lvlList[selectLvl]);
 }
@@ -465,6 +494,14 @@ export async function gameOver(status, score, stars){
                 break;
             }
         }
+        // // changed music
+        // if (selectLvl < 2)
+        //     lvlSound1_2.pause();
+        // else if (selectLvl > 1 && selectLvl < 4)
+        //     lvlSound3_4.pause();
+        // else if (selectLvl > 3)
+        //     lvlSound5_6.pause();
+        // mainThemeSound.play();
     }
 }
 // вікно результатів гри та їх підрахунок
@@ -485,9 +522,9 @@ async function resultOfGame(score, stars){
             "background: url('/img/emptyStar.png') 0 0/100% 100% no-repeat";
         }
     }
-    
-    if ((selectLvl+1) <= (lvlList.length-1)){
-        if (lvlList[Number(selectLvl)+1].starsCountToOpen <= countStars)
+
+    if ((Number(selectLvl)+1) <= lvlList.length){
+        if (lvlList[(Number(selectLvl)+1)].starsCountToOpen <= countStars)
             btnNextInResult.style = btnNextInResult.style.cssText +
             "background: url('../img/btnNext.png') 0 0/100% 100% no-repeat";
         else
@@ -497,7 +534,7 @@ async function resultOfGame(score, stars){
         console.log('це був останній рівень');
         btnNextInResult.style = btnNextInResult.style.cssText + "display: none";
     }
-
+    
     gameOverWindow.style = gameOverWindow.style.cssText + "display: flex";
     onWinSound.play();
     addScoreSound.volume = 0.1;
@@ -523,34 +560,3 @@ async function resultOfGame(score, stars){
             scoreCountInResult.textContent = score;
     }, 100);
 }
-
-
-
-
-/*
-// перехід між вікнами плавний варіант
-async function changeWindow(currentWindow, newWindow){
-    if (currentWindow !== null){
-        // currentWindow.style = currentWindow.style.cssText + "display: none"
-        currentWindow.style = currentWindow.style.cssText + "opacity: 0";
-        setTimeout(()=> currentWindow.style = currentWindow.style.cssText + "display: none" , windowOpacitySpeed)          
-    }
-    loadingWindow.style = loadingWindow.style.cssText + "display: flex"
-    setTimeout(()=>{
-        loadingWindow.style = loadingWindow.style.cssText + "opacity: 1";
-    }, (windowOpacitySpeed/2))  
-    // loadingWindow.style = loadingWindow.style.cssText + "display: flex";
-    // loadingWindow.style = loadingWindow.style.cssText + "opacity: 1";
-
-    // типу завантажується нове вікно
-    setTimeout(()=>{
-        // newWindow.style = newWindow.style.cssText + "display: flex";
-        // loadingWindow.style = loadingWindow.style.cssText + "display: none";
-        loadingWindow.style = loadingWindow.style.cssText + "opacity: 0";
-        newWindow.style = newWindow.style.cssText + "display: flex";
-        setTimeout(()=>{
-            loadingWindow.style = loadingWindow.style.cssText + "display: none";
-            newWindow.style = newWindow.style.cssText + "opacity: 1";
-        }, windowOpacitySpeed)  
-    }, windowLoadSpeed);
-}*/

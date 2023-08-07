@@ -12,8 +12,8 @@ const progressBar = document.getElementsByClassName('bar')[0];
 const popUpPoints = document.getElementsByClassName('popUpPoints')[0];
 const rock = document.getElementsByClassName('rock')[0];
 const gameField = document.getElementsByClassName('gameField')[0];
-let rocksArr = [[-1, 0, 0, 0, -1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [-1, 0, 0, 0, -1]];
-let destroyRocksArr = [[-1, 0, 0, 0, -1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [-1, 0, 0, 0, -1]];
+let rocksArr = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
+let destroyRocksArr = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
 let taskList = {}, taskRocks = null, taskBlocks = null, doTaskRocks = false, doTaskBlocks = false;
 let rockSize = 50, rockGap = 10, margine = 10, bgColor = 'white', currentScore = 0, maxScore = 1000, starsCounter = 0;
 let oldSelectRockI = null, oldSelectRockJ = null, newSelectRockI = null, newSelectRockJ = null;
@@ -21,6 +21,22 @@ export let permissionToClick = true;
 
 // налаштування та запуск гри (з меню)
 export async function setupAndLaunch(getLvlTask){
+    // обнуляємо ігрове поле
+    for (let i in rocksArr){
+        for (let j in rocksArr[i]){
+            if (rocksArr[i][j] != -1 &&rocksArr[i][j] != 0 && rocksArr[i][j] != null)
+                rocksArr[i][j].remove();
+            rocksArr[i][j] = 0;
+            destroyRocksArr[i][j] = 0;
+        }
+    }
+    // отримуємо схему дірок на ігровому полі
+    for (let i in getLvlTask.playFieldHoles){
+        rocksArr[getLvlTask.playFieldHoles[i].slice('/')[0]][getLvlTask.playFieldHoles[i].slice('/')[2]] = -1;
+        destroyRocksArr[getLvlTask.playFieldHoles[i].slice('/')[0]][getLvlTask.playFieldHoles[i].slice('/')[2]] = -1;
+    }    
+
+    // налаштування звуків
     switch(SoundVolume){
         case 1:{
             onGetStarSound.volume = 1;
@@ -38,11 +54,13 @@ export async function setupAndLaunch(getLvlTask){
         }
     }    
     
+    // скидання до нуля завдань та лічильника
     starsCounter = 0;
     for (let i in taskList.rocks)
         taskList.rocks[i].remove();
     taskList = {};
 
+    // отримання списку завдань та максимального значення прогресбару
     maxScore = getLvlTask.maxScore;
     if (getLvlTask.rocks !== null){
         taskRocks = {};
@@ -62,7 +80,9 @@ export async function setupAndLaunch(getLvlTask){
         }     
         doTaskBlocks = true;
     }
-    start();    
+
+    // запуск інших налаштувань та початку гри
+    start();
 }
 
 // запуск гри
@@ -76,6 +96,7 @@ function start(){
     starsNode[1].style = starsNode[1].style.cssText + "opacity: 0.3; transform: scale(1)";
     starsNode[2].style = starsNode[2].style.cssText + "opacity: 0.3; transform: scale(1)";
 
+    // описуємо завдання
     for (let i in taskList.rocks){
         let x = taskList.rocks[i];
         taskList.rocks[i] = taskItem.cloneNode(true);
@@ -104,9 +125,9 @@ function start(){
         taskList.rocks[i].children[0].textContent = 'X'+x;
         node_taskList.append(taskList.rocks[i]);
     }    
-    taskItem.remove();   
+    taskItem.remove();
 
-
+    // створюємо ігрове поле
     if (rocksArr[0][1] === 0 || rocksArr[0][1] === null){
         for (let i = 0; i < rocksArr.length; i++)
             for (let j = 0; j < rocksArr[0].length; j++){
@@ -143,6 +164,8 @@ function start(){
             //      console.log(rocksArr[i][j]);
         rock.remove();        
     }
+
+    // перемальовуємо усе та починаємо гру
     setTimeout(()=>{restartGame()}, 200);   
 }
 
