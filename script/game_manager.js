@@ -1,12 +1,9 @@
-import { gameOver, permissionToPlay} from './main.js';
+import { gameOver, permissionToPlay, SoundVolume} from './main.js';
 
-// const lvlInform = document.getElementsByClassName('lvlInform')[0];
-
+const onGetStarSound = new Audio("../sound/wii.wav");
 const bubbleSound = new Audio("../sound/bubbleSound_3.mp3");
 const bubbleSound2 = new Audio("../sound/bubbleSound_3.mp3");
 const bubbleSound3 = new Audio("../sound/bubbleSound_3.mp3");
-
-const bubble4Test = document.getElementsByClassName('res')[0].children[1];
 
 const node_taskList = document.getElementsByClassName('taskList')[0];
 const taskItem = document.getElementsByClassName('taskItem')[0];
@@ -23,8 +20,24 @@ let oldSelectRockI = null, oldSelectRockJ = null, newSelectRockI = null, newSele
 export let permissionToClick = true;
 
 // налаштування та запуск гри (з меню)
-export async function setupAndLaunch(getLvlTask, volume){
-    bubbleSound.volume = volume;
+export async function setupAndLaunch(getLvlTask){
+    switch(SoundVolume){
+        case 1:{
+            onGetStarSound.volume = 1;
+            bubbleSound.volume = 1;
+            bubbleSound2.volume = 1;
+            bubbleSound3.volume = 1;
+            break;
+        }
+        case 0:{
+            onGetStarSound.volume = 0;
+            bubbleSound.volume = 0;
+            bubbleSound2.volume = 0;
+            bubbleSound3.volume = 0;
+            break;
+        }
+    }    
+    
     starsCounter = 0;
     for (let i in taskList.rocks)
         taskList.rocks[i].remove();
@@ -69,12 +82,12 @@ function start(){
         switch(i){
             case '1':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('/img/bubble_1.png') 0 0/100% 100% no-repeat";
+                "background: url('../img/bubble_1.png') 0 0/100% 100% no-repeat";
                 break;
             }
             case '2':{
                 taskList.rocks[i].style = taskList.rocks[i].style.cssText +
-                "background: url('./img/bubble_2.png') 0 0/100% 100% no-repeat";
+                "background: url('../img/bubble_2.png') 0 0/100% 100% no-repeat";
                 break;
             }
             case '3':{
@@ -83,8 +96,8 @@ function start(){
                 break;
             }
             case '4':{  
-                taskList.rocks[i].style = taskList.rocks[i].style.cssText + bubble4Test.style.cssText;
-                // "background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat";           
+                taskList.rocks[i].style = taskList.rocks[i].style.cssText + 
+                "background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat";           
                 break;
             }
         }
@@ -303,12 +316,13 @@ async function addScore(restart){
         currentScore += (counter * 10);
         let progres = Math.round(currentScore/maxScore*100);
 
+        console.log('check to get stars.. progres = '+progres+'; starsCounter = '+starsCounter);
         // первіряємо чи отримали зірку
         if (progres >= 100){
             progres = 100;
             if (starsCounter == 2){
-                console.log('Ви отримали усі три зірки!');
                 starsCounter = 3;
+                onGetStarSound.play();
                 starsNode[2].style = starsNode[2].style.cssText + "opacity: 1; transform: scale(1.3)";
                 setTimeout(()=>
                 starsNode[2].style = starsNode[2].style.cssText + "transform: scale(1)"
@@ -316,16 +330,16 @@ async function addScore(restart){
             }
         }
         else if (progres >= 65 && starsCounter == 1){
-            console.log('Ви отримали другу зірку!')
             starsCounter = 2;
+            onGetStarSound.play();
             starsNode[1].style = starsNode[1].style.cssText + "opacity: 1; transform: scale(1.3)";
             setTimeout(()=>
             starsNode[1].style = starsNode[1].style.cssText + "transform: scale(1)"
             , 400)
         }
         else if (progres >= 30 && starsCounter == 0){
-            console.log('Ви отримали першу зірку!')
             starsCounter = 1;
+            onGetStarSound.play();
             starsNode[0].style = starsNode[0].style.cssText + "opacity: 1; transform: scale(1.3)";
             setTimeout(()=>
             starsNode[0].style = starsNode[0].style.cssText + "transform: scale(1)"

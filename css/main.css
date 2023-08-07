@@ -2,6 +2,9 @@
 @import url(null.css);
 
 *{
+    outline: none;
+    &:focus{ outline: none; }
+
     font: italic small-caps bold 24px/2 cursive;
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1),
@@ -56,21 +59,17 @@ body{
         gap: 10px;
         
         .btn{
-            &.btnSelectLvl{
-                background: url('../img/btnPlayBG.png') 0 0/100% 100% no-repeat;
-                height: 60%;
-                width: 60%;
-                font: italic small-caps bold 24px/2 cursive;
-                text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                         0px 8px 13px rgba(0,0,0,0.1),
-                         0px 18px 23px rgba(0,0,0,0.1);
-                color: black;
-                transition-duration: 0.6s;
-                &:hover{
-                    transform: scale(1.2);
-                    cursor: pointer;
-                }
+            height: 30%;
+            width: 35%;
+            transition-duration: 0.6s;
+            &:hover{
+                transform: scale(1.2);
+                cursor: pointer;
             }
+            &.btnSelectLvl{ background: url('../img/btnPlayBG.png') 0 0/100% 100% no-repeat }
+            &.btnSoundVolumeChange{ background: url('../img/btnSoundOnBG.png') 0 0/100% 100% no-repeat }
+            &.btnMusicVolumeChange{ background: url('../img/btnMusicOnBG.png') 0 0/100% 100% no-repeat }
+            &.btnHelp{ background: url('../img/btnHelp.png') 0 0/100% 100% no-repeat }
         }
     }
 }
@@ -121,20 +120,18 @@ body{
                 }
             }
             .number{
+                color: lightblue;
                 -webkit-text-stroke: 2px blue;
                 font-size: 36px;
             }
             .inform{
                 position: absolute;
                 transition-duration: 2.5s;
-                font: italic small-caps bold 14px/2 cursive;
-                text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                         0px 8px 13px rgba(0,0,0,0.1),
-                         0px 18px 23px rgba(0,0,0,0.1);
-                color: black;
+                font-size: 14px;
                 display: none;
                 left: 40%;
                 top: 0;
+                text-align: center;
             }
         }
         .header{
@@ -151,6 +148,59 @@ body{
                 font-size: 32px;
                 margin-bottom: 5%;
             }
+        }
+        .btnBackToMenu{
+            position: absolute;
+            width: 15%;
+            height: 15%;
+            bottom: 9%;
+            left: 4%;
+            background: url('../img/btnBackBG.png') 0 0/100% 100% no-repeat;
+            transition-duration: 0.6s;
+            &:hover{ transform: scale(1.3) }
+        }
+    }
+}
+
+.helpWindow{
+    /* display: flex; */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    .subWindow{
+        position: relative; 
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        max-width: 640px;
+        width: 96%;
+        height: 65%;
+        background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        padding: 14% 7% 20% 5%;
+        .header{
+            position: absolute;
+            width: 100%;
+            height: 20%;
+            top: -5%;
+            left: 0;
+            background: url('../img/headerBG_1.png') 0 0/100% 100% no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .headerText{
+                font-size: 32px;
+                margin-bottom: 5%;
+            }
+        }
+        .helpText{
+            font-size: 14px;
+            width: 100%;
+            height: 100%;
+            padding: 4%;
+            overflow-y: scroll;
         }
         .btnBackToMenu{
             position: absolute;
@@ -192,12 +242,14 @@ body{
                 max-width: 400px;
                 width: 85%;
                 height: 30px;
-                background-color: lightcoral;
+                background-color: rgba(240, 128, 128, 0.801);
                 z-index: 2;
+                border-radius: 50px;
                 .bar{
                     height: 100%;
                     width: 0%;
-                    background-color: red;
+                    background: linear-gradient(rgb(255, 102, 46), coral);
+                    border-radius: 50px;
                     transition-duration: 1s;
                     z-index: 3;
                 }
@@ -205,11 +257,8 @@ body{
                     position: absolute;
                     top: -10%;
                     left: 0%;
-                    font: italic small-caps bold 24px/2 cursive;
-                    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                             0px 8px 13px rgba(0,0,0,0.1),
-                             0px 18px 23px rgba(0,0,0,0.1);
-                    color: red;
+                    font-size: 24px;
+                    color: coral;
                     transition-duration: 1.5s;
                     z-index: 1;
                     opacity: 0;
@@ -237,7 +286,6 @@ body{
                 height: 60%;
                 transition-duration: 1s;
                 border-bottom: dashed 1px lightcoral;
-                /* background: url('../img/windowBG_1.png') 0 0/100% 100% no-repeat; */
                 .taskText{
                     color: red;                    
                 }
@@ -247,7 +295,7 @@ body{
                     justify-content: center;
                     width: 100%;
                     gap: 5%;
-                    @media screen and (max-device-width: 700px) { gap: 10%; }
+                    @media screen and (max-device-width: 700px) { gap: 14%; }
                     .taskItem{
                         width: 40px;
                         height: 40px;
@@ -257,10 +305,9 @@ body{
                         border-radius: 50%;
                         box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
                         transition-duration: 0.5s;
-                        /* padding-top: 0.5%; */
                         .taskItemText{
-                            font: italic small-caps bold 16px/2 cursive;
-                            padding-left: 110%;
+                            font-size: 16px;
+                            padding-left: 105%;
                         }
                     }
                 }
@@ -383,11 +430,7 @@ body{
                 flex-direction: column;
                 .scoreText{
                     flex: 0 1 30%;
-                    font: italic small-caps bold 20px/2 cursive;
-                    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                             0px 8px 13px rgba(0,0,0,0.1),
-                             0px 18px 23px rgba(0,0,0,0.1);
-                    color: black;
+                    font-size: 20px;
                 }
                 .scoreCount{
                     flex: 0 1 70%;
@@ -397,11 +440,8 @@ body{
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    font: italic small-caps bold 26px/2 cursive;
-                    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                             0px 8px 13px rgba(0,0,0,0.1),
-                             0px 18px 23px rgba(0,0,0,0.1);
-                    color: black;
+                    font-size: 34px;
+                    color: rgb(252, 101, 46);
                 }
             }
 
@@ -415,11 +455,7 @@ body{
             .btn{
                 height: 60%;
                 width: 25%;
-                font: italic small-caps bold 18px/2 cursive;
-                text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                         0px 8px 13px rgba(0,0,0,0.1),
-                         0px 18px 23px rgba(0,0,0,0.1);
-                color: black;
+                font-size: 18px;
                 transition-duration: 0.6s;
                 &:hover{
                     transform: scale(1.2);
@@ -438,11 +474,7 @@ body{
                     .inform{
                         position: absolute;
                         transition-duration: 2.5s;
-                        font: italic small-caps bold 14px/2 cursive;
-                        text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-                                 0px 8px 13px rgba(0,0,0,0.1),
-                                 0px 18px 23px rgba(0,0,0,0.1);
-                        color: black;
+                        font-size: 14px;
                         display: none;
                         left: 50%;
                         top: 0;

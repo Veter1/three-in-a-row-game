@@ -14,6 +14,9 @@
     <section class="mainWindow menuWindow">
         <div class="subWindow">
             <button class="btn btnSelectLvl"></button>
+            <button class="btn btnSoundVolumeChange"></button>
+            <button class="btn btnMusicVolumeChange"></button>
+            <button class="btn btnHelp"></button>
         </div>
     </section>
 
@@ -33,6 +36,20 @@
         </div>        
     </section>
 
+    <section class="mainWindow helpWindow">
+        <div class="subWindow">
+            <div class="header"><p class="headerText">Довідка</p></div>
+            <div class="helpText">Лопай бульбашки під час проходження рівня та заробляй бали,
+                чим більше балів за рівень на береш тим більше зірок отримаєш,
+                зірки потрібні для відриття нових рівнів. Для проходження рівня виконуй завдання що вказане вверху
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero commodi explicabo,
+                exercitationem natus doloremque ducimus eaque quaerat nostrum, ex consequuntur,
+                dolorem blanditiis aliquam.
+                Enim eos, at voluptatem quas saepe aspernatur.</div>
+            <button class="btn btnBackToMenu"></button>
+        </div>        
+    </section>
+
     <section class="mainWindow gameOverWindow">
         <div class="subWindow">
             <div class="resultSection">
@@ -43,7 +60,7 @@
                 </div>
                 <div class="score">
                     <div class="scoreText">Ваш рахунок</div>
-                    <div class="scoreCount"><span>999</span></div>
+                    <div class="scoreCount"><span>none</span></div>
                 </div>
             </div>
             <div class="btnSection">
@@ -83,11 +100,6 @@
         <div class="lvlInform">test text</div>
     </section>
 
-
-    <section class="res" style="display: none;">
-        <audio class="sound mainTheme_2" src="sound/mainTheme_2.mp3"></audio>
-        <div class="test bubble_4" style="background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat"></div>
-    </section>
     <script type="module" src="script/main.js"></script>
 </body>
 </html>

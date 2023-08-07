@@ -4,6 +4,7 @@ import {
     permissionToClick
 } from './game_manager.js';
 
+const helpWindow = document.getElementsByClassName('helpWindow')[0];
 const loadingWindow = document.getElementsByClassName('loadingWindow')[0];
 const menuWindow = document.getElementsByClassName('menuWindow')[0];
 const lvlMapWindow = document.getElementsByClassName('lvlMapWindow')[0];
@@ -13,37 +14,49 @@ const starsInResult = gameOverWindow.getElementsByClassName('star');
 const scoreCountInResult = gameOverWindow.getElementsByClassName('scoreCount')[0];
 let btnNextInResult = gameOverWindow.getElementsByClassName('btnNextLvl')[0];
 
-const mainThemeSound = document.getElementsByClassName('mainTheme_2')[0];
-// const mainThemeSound = new Audio(someSound);
-const onWinSound = new Audio("../sound/onWin_tada.mp3");
+const mainThemeSound = new Audio("../sound/mainTheme_2.mp3");
+const addScoreSound = new Audio("../sound/bubbleSound_2_1.mp3");
+const onWinSound = new Audio("../sound/onWin.mp3");
 const popUpSound = new Audio("../sound/popUp_1_1.mp3");
 const onClickSound = new Audio("../sound/popUp_2_1.mp3");
 const onClickSound2 = new Audio("../sound/popUp_2_1.mp3");
 
 let userDevice = null; // phone or pc
-export let permissionToPlay = true;
+export let permissionToPlay = true, musicVolume = 1, SoundVolume = 1;
 let progressData = [], lvlMap = [], selectLvl = 0, windowLoadSpeed = 800, windowOpacitySpeed = 400;
-let countStars = 0, volume = 1, onClickSoundSwitcher = 0, anyInteract = false;
+let countStars = 0, onClickSoundSwitcher = 0, anyInteract = false, permissionToSkip = true;
 let versionOfApp = '0.1'; 
 let lvlList = [{
     starsCountToOpen: 0,
-    maxScore: 2000,
-    rocks: {'1': 3},
-    // rocks: {'1': 3,'2':6 ,'3': 3},
-    blocks: null,/* ['2/3', '0/1'] */
+    maxScore: 800,
+    rocks: {'1': 3,'2':6 ,'3': 3},
+    blocks: null, /* приклад: ['2/3', '0/1'] */
 }, {
     starsCountToOpen: 1,
     maxScore: 1000,
-    rocks: {'4': 6, '3': 6},
-    blocks: null, /* ['0/4', '0/2'], */
+    rocks: {'4': 6, '3': 6, '1': 3},
+    blocks: null,
 }, {
     starsCountToOpen: 3,
-    maxScore: 1300,
-    rocks: {'1': 3, '2': 6},
-    blocks: null, /* ['0/4', '0/2'], */
+    maxScore: 1200,
+    rocks: {'1': 9, '2': 12},
+    blocks: null,
+}, {
+    starsCountToOpen: 6,
+    maxScore: 1400,
+    rocks: {'3': 6, '2': 6, '1': 6},
+    blocks: null,
+}, {
+    starsCountToOpen: 10,
+    maxScore: 1600,
+    rocks: {'1': 15, '2': 3, '3': 6},
+    blocks: null,
+}, {
+    starsCountToOpen: 15,
+    maxScore: 2000,
+    rocks: {'1': 21, '2': 18, '3': 15},
+    blocks: null,
 }];
-
-mainThemeSound.volume = 0.5;
 
 localStorage.clear();
 
@@ -65,10 +78,12 @@ async function onLoadApp(){
     }
     // попередні налаштування демонстрації ігрових вікон
     gameWindow.style = gameWindow.style.cssText + "display: none";
+    gameOverWindow.style = gameOverWindow.style.cssText + "display: none";
+    helpWindow.style = helpWindow.style.cssText + "display: none";
     menuWindow.style = menuWindow.style.cssText + "display: none";
     lvlMapWindow.style = lvlMapWindow.style.cssText + "display: none";
     loadingWindow.style = loadingWindow.style.cssText + "display: none";
-    gameOverWindow.style = gameOverWindow.style.cssText + "display: none";
+    changeVolume('onloadApp');
     changeWindow(null, menuWindow);
     await updateUserProgress(true);
 }
@@ -228,6 +243,68 @@ async function updateUserProgress(onLoadApp, newScore, NewStars){
     // '/' - ділить рядок на рівні
     // ',' - розділяє окремі значення в рівні
 }
+// вкл/викл звуку та музики
+function changeVolume(type){
+    switch(type){
+        case 'onloadApp':{
+            mainThemeSound.volume = 0.3;
+            onWinSound.volume = 0.7;
+            addScoreSound.volume = 0.4;
+            popUpSound.volume = 0.5;
+            onClickSound.volume = 0.5;
+            onClickSound2.volume = 0.5;
+            mainThemeSound.loop = true;
+            console.log('1')
+            break;
+        }
+        case 'sound':{
+            if (popUpSound.volume != 0){
+                SoundVolume = 0;
+                onWinSound.volume = 0;
+                addScoreSound.volume = 0;
+                popUpSound.volume = 0;
+                onClickSound.volume = 0;
+                onClickSound2.volume = 0;
+                menuWindow.children[0].children[1].style = menuWindow.children[0].children[1].style.cssText +
+                "background: url('../img/btnSoundOffBG.png') 0 0/100% 100% no-repeat";
+            } else{
+                SoundVolume = 1;
+                onWinSound.volume = 0.7;
+                addScoreSound.volume = 0.4;
+                popUpSound.volume = 0.5;
+                onClickSound.volume = 0.5;
+                onClickSound2.volume = 0.5;
+                menuWindow.children[0].children[1].style = menuWindow.children[0].children[1].style.cssText +
+                "background: url('../img/btnSoundOnBG.png') 0 0/100% 100% no-repeat";
+            }
+            break;
+        }
+        case 'music':{
+            if (mainThemeSound.volume != 0){
+                musicVolume = 0;
+                mainThemeSound.volume = 0;
+                menuWindow.children[0].children[2].style = menuWindow.children[0].children[2].style.cssText +
+                "background: url('../img/btnMusicOffBG.png') 0 0/100% 100% no-repeat";
+            }
+            else{
+                musicVolume = 1;
+                mainThemeSound.volume = 0.3;
+                menuWindow.children[0].children[2].style = menuWindow.children[0].children[2].style.cssText +
+                "background: url('../img/btnMusicOnBG.png') 0 0/100% 100% no-repeat";
+            }
+            break;
+        }
+    }
+
+}
+// програвання звуку при натисканні на кнопку
+function playSoundBtnClick(){
+    if (onClickSoundSwitcher == 0){
+        onClickSound.play(); onClickSoundSwitcher = 1;
+    } else{
+        onClickSound2.play(); onClickSoundSwitcher = 0;
+    }    
+}
 
 
 // ON MENU FUNCTIONS //
@@ -238,31 +315,23 @@ menuWindow.addEventListener('click', async (event)=>{
         mainThemeSound.play();
     }
     if (event.target.classList.contains('btnSelectLvl')){
-        if (onClickSoundSwitcher == 0){
-            if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        } onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+        playSoundBtnClick()
         await changeWindow(menuWindow, lvlMapWindow);
+    } else if (event.target.classList.contains('btnSoundVolumeChange')){
+        changeVolume('sound');
+        playSoundBtnClick();
+    } else if (event.target.classList.contains('btnMusicVolumeChange')){
+        playSoundBtnClick()
+        changeVolume('music');        
+    } else if (event.target.classList.contains('btnHelp')){
+        playSoundBtnClick()
+        await changeWindow(menuWindow, helpWindow);
     }
 })
 // вупрацювання кнопок у вікні "результати гри"
 gameOverWindow.addEventListener('click', async (event)=>{
-    if (event.target.classList.contains('btnNextLvl')){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+    if (event.target.classList.contains('btnNextLvl') && permissionToSkip){
+        playSoundBtnClick()
         // якщо наступний рівень відкритий        
         if (lvlList[Number(selectLvl)+1].starsCountToOpen <= countStars){
             selectLvl++;
@@ -278,31 +347,19 @@ gameOverWindow.addEventListener('click', async (event)=>{
             setTimeout(()=> msg.style = msg.style.cssText + "top: -300%; opacity: 0;", 50);
             setTimeout(()=>{ msg.style = msg.style.cssText + "display: none;"; msg.remove(); }, 2400);
         }
-    } else if (event.target.classList.contains('btnRestart')){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+    } else if (event.target.classList.contains('btnRestart') && permissionToSkip){
+        playSoundBtnClick()
         await changeWindow(gameOverWindow, gameWindow);
         startGame();
-    } else if (event.target.classList.contains('btnBackToMenu')){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+    } else if (event.target.classList.contains('btnBackToMenu') && permissionToSkip){
+        playSoundBtnClick()
         gameWindow.style = gameWindow.style.cssText + "display: none";
         await gameOver('backToMenuFromResultWindow');
     }
 })
 lvlMapWindow.addEventListener('click', async (event)=>{
     if (event.target.classList.contains('lvl') || event.target.parentNode.classList.contains('lvl')){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+        playSoundBtnClick()
         for (let i in lvlMap)
             // рівень відкритий
             if ((event.target == lvlMap[i] || event.target.parentNode == lvlMap[i]) && Number(progressData[i][0]) == 1){
@@ -321,19 +378,20 @@ lvlMapWindow.addEventListener('click', async (event)=>{
                 setTimeout(()=>{ msg.style = msg.style.cssText + "display: none;"; msg.remove(); }, 2400);
             }
     } else if (event.target.classList.contains('btnBackToMenu')){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+        playSoundBtnClick()
         await changeWindow(lvlMapWindow, menuWindow);
     }
-
+})
+helpWindow.addEventListener('click', async (event)=>{
+    if (event.target.classList.contains('btnBackToMenu')){
+        playSoundBtnClick()
+        await changeWindow(helpWindow, menuWindow);
+    }
 })
 // завантаження рівня та початок гри
 function startGame(){
     permissionToPlay = true;
-    launchGame(lvlList[selectLvl], volume);
+    launchGame(lvlList[selectLvl]);
 }
 
 
@@ -344,11 +402,7 @@ gameWindow.addEventListener('click', async (event)=>{
         await onClickRockFunction(event)
 
     else if (event.target.classList.contains('btnRestart') && permissionToPlay === true && permissionToClick === true){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+        playSoundBtnClick()
         if (userDevice === 'pc'){
             event.target.style = event.target.style.cssText + "transform: scale(1)";
             gameWindow.style = gameWindow.style.cssText + "cursor: default";
@@ -358,11 +412,7 @@ gameWindow.addEventListener('click', async (event)=>{
     }
 
     else if (event.target.classList.contains('btnBackToMenu') && permissionToPlay === true && permissionToClick === true){
-        if (onClickSoundSwitcher == 0){
-            onClickSound.play(); onClickSoundSwitcher = 1;
-        } else{
-            onClickSound2.play(); onClickSoundSwitcher = 0;
-        }
+        playSoundBtnClick()
         await gameOver('backToMenuFromGame');
     }
 })
@@ -419,6 +469,7 @@ export async function gameOver(status, score, stars){
 }
 // вікно результатів гри та їх підрахунок
 async function resultOfGame(score, stars){
+    permissionToSkip = false;
     //check any progress 
     let someTxt = '';   
     if (await updateUserProgress(false, score, stars))
@@ -447,9 +498,30 @@ async function resultOfGame(score, stars){
         btnNextInResult.style = btnNextInResult.style.cssText + "display: none";
     }
 
-    scoreCountInResult.textContent = score;
     gameOverWindow.style = gameOverWindow.style.cssText + "display: flex";
     onWinSound.play();
+    addScoreSound.volume = 0.1;
+    let volumeAddcount = 0.9/(score/10); // крок збільшення гучності нархування очок
+    let timeAddScore = 2000/(score/10); // очки будуть нараховуватися за 2 с. в не залежності від їх кількості
+    setTimeout(async ()=>{        
+        if (score > 0){
+            for (let i = 0; i < score; i += 10){
+                await new Promise((resolve)=>{
+                    setTimeout(()=>{
+                        scoreCountInResult.textContent = i;
+                        if (SoundVolume != 0){
+                            addScoreSound.play();
+                            if (addScoreSound.volume < 0.9)
+                                addScoreSound.volume += volumeAddcount;
+                        }
+                        resolve('done')
+                    }, timeAddScore)
+                })   
+            }
+            permissionToSkip = true;
+        } else
+            scoreCountInResult.textContent = score;
+    }, 100);
 }
 
 
