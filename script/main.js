@@ -28,7 +28,7 @@ let userDevice = null; // phone or pc
 export let permissionToPlay = true, musicVolume = 1, SoundVolume = 1;
 let progressData = [], lvlMap = [], selectLvl = 0, windowLoadSpeed = 800, windowOpacitySpeed = 400;
 let countStars = 0, onClickSoundSwitcher = 0, anyInteract = false, permissionToSkip = true;
-let versionOfApp = '0.1'; 
+let versionOfApp = '0.2'; 
 let lvlList = [{
     starsCountToOpen: 0,
     maxScore: 900,
@@ -91,9 +91,9 @@ async function onLoadApp(){
     helpWindow.style = helpWindow.style.cssText + "display: none";
     menuWindow.style = menuWindow.style.cssText + "display: none";
     lvlMapWindow.style = lvlMapWindow.style.cssText + "display: none";
-    loadingWindow.style = loadingWindow.style.cssText + "display: none";
+    // loadingWindow.style = loadingWindow.style.cssText + "display: none";
     changeVolume('onloadApp');
-    changeWindow(null, menuWindow);
+    changeWindow(loadingWindow, menuWindow);
     await updateUserProgress(true);
 }
 // перехід між вікнами
@@ -154,8 +154,8 @@ async function updateLvlMap(onLoadApp){
 }
 // оновлення прогрессу користувача
 async function updateUserProgress(onLoadApp, newScore, NewStars){
-    // перший запуск додатку без збережених данних
-    if (localStorage.length == 0 && onLoadApp){
+    // перший запуск додатку без збережених данних або якщо версыъ додатку не співпадають
+    if ((localStorage.length == 0 && onLoadApp) || (onLoadApp && localStorage.versionOfApp != versionOfApp)){
         console.log('це перший запуск гри створюю данні користувача');
 
         // записуємо данні в storage

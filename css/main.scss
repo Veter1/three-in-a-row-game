@@ -1,0 +1,533 @@
+/* Обнуляющий ксс */
+@import url(null.css);
+
+*{
+    outline: none;
+    &:focus{ outline: none; }
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    font: italic small-caps bold 24px/2 cursive;
+    text-shadow: 0px 4px 3px rgba(206, 171, 157, 0.418);
+    color:coral;
+}
+
+body{
+    min-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: url('../img/mainBG.jpg') 0 0/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainWindow{
+    max-width: 1024px;
+    position: absolute;
+    /* transition-duration: 1s;
+    opacity: 0; */
+}
+
+.loadingWindow{
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: url('../img/loadingBG.jpg') 0 0/100% 100% no-repeat;
+    padding-bottom: 80%;
+    text-shadow: 0px 4px 3px rgba(141, 104, 89, 0.726);
+    color: rgb(211, 86, 41);
+}
+
+.menuWindow{
+    /* display: flex; */
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: url('../img/menuBG.jpg') 0 0/100% 100% no-repeat;
+    position: relative;
+    .btn{
+        position: absolute;
+        height: 10%;
+        width: 15%;
+        transition-duration: 0.6s;
+        &:hover{
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        &.btnSelectLvl{
+            background: url('../img/btnPlayBG.png') 0 0/100% 100% no-repeat;
+            left: 40%;
+            top: 68%;
+            height: 13%;
+            width: 20%;
+        }
+        &.btnSoundVolumeChange{
+            background: url('../img/btnSoundOnBG.png') 0 0/100% 100% no-repeat;
+            left: 1%;
+            bottom: 12%;
+        }
+        &.btnMusicVolumeChange{
+            background: url('../img/btnMusicOnBG.png') 0 0/100% 100% no-repeat;
+            left: 1%;
+            bottom: 1%;
+        }
+        &.btnHelp{
+            background: url('../img/btnHelp.png') 0 0/100% 100% no-repeat;
+            right: 1%;
+            bottom: 1%;
+        }
+    }
+}
+
+.lvlMapWindow{
+    /* display: flex; */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    .subWindow{
+        position: relative; 
+        max-width: 600px;
+        width: 96%;
+        height: 65%;
+        background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        padding: 60px 5.5% 1.5% 6.5%;
+        .wrapLvls{
+            padding-top: 4%;
+            height: 80%;
+            width: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            @media screen and (min-device-width: 374px) { gap: 5%; }
+            @media screen and (min-device-width: 525px) { gap: 10%; }
+            overflow: scroll;
+            .lvl{
+                position: relative;
+                /* flex: 1 1 auto; */
+                width: 90px;
+                height: 90px;
+                background: url('../img/closeLvlBG.png') 0 0/100% 100% no-repeat;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .stars{
+                    position: absolute;
+                    top: -10%;
+                    left: 0;
+                    width: 100%;
+                    height: 35%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    .star{
+                        background: url('../img/star.png') 0 0/100% 100% no-repeat;
+                        height: 90%;
+                        width: 25%;                    
+                        &.star_1{ margin-top: 5% }
+                        &.star_2{ margin-bottom: 5% }
+                        &.star_3{ margin-top: 5%; opacity: 0.3; }
+                    }
+                }
+                .number{
+                    color: lightblue;
+                    -webkit-text-stroke: 2px blue;
+                    font-size: 36px;
+                }
+                .inform{
+                    position: absolute;
+                    transition-duration: 2.5s;
+                    font-size: 14px;
+                    display: none;
+                    left: 40%;
+                    top: 0;
+                    text-align: center;
+                    text-shadow: 0px 4px 3px rgba(141, 104, 89, 0.726);
+                    color: rgb(211, 86, 41);
+                }
+            }
+        }
+        .header{
+            position: absolute;
+            width: 100%;
+            height: 20%;
+            top: -5%;
+            left: 0;
+            background: url('../img/headerBG_1.png') 0 0/100% 100% no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .headerText{
+                font-size: 32px;
+                margin-bottom: 10%;
+                text-shadow: 0px 4px 3px rgba(206, 171, 157, 0.418);
+                color:coral;
+            }
+        }
+        .btnBackToMenu{
+            position: absolute;
+            width: 15%;
+            height: 15%;
+            bottom: 9%;
+            left: 4%;
+            background: url('../img/btnBackBG.png') 0 0/100% 100% no-repeat;
+            transition-duration: 0.6s;
+            &:hover{ transform: scale(1.3) }
+        }
+    }
+}
+
+.helpWindow{
+    /* display: flex; */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    .subWindow{
+        position: relative; 
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        max-width: 640px;
+        width: 96%;
+        height: 65%;
+        background: url('../img/windowBG_4.png') 0 0/100% 100% no-repeat;
+        padding: 14% 7% 20% 5%;
+        .header{
+            position: absolute;
+            width: 100%;
+            height: 20%;
+            top: -5%;
+            left: 0;
+            background: url('../img/headerBG_1.png') 0 0/100% 100% no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .headerText{
+                font-size: 32px;
+                margin-bottom: 10%;
+            }
+        }
+        .helpText{
+            font-size: 14px;
+            width: 100%;
+            height: 100%;
+            padding: 4%;
+            overflow-y: scroll;
+        }
+        .btnBackToMenu{
+            position: absolute;
+            width: 15%;
+            height: 15%;
+            bottom: 9%;
+            left: 4%;
+            background: url('../img/btnBackBG.png') 0 0/100% 100% no-repeat;
+            transition-duration: 0.6s;
+            &:hover{ transform: scale(1.3) }
+        }
+    }
+}
+
+.gameWindow{
+    /* display: flex; */
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: url('../img/lvlBG1.jpg') 0 0/100% 100% no-repeat;
+    .UI{
+        height: 100px;
+        width: 100%;
+    
+        &.topUI{
+            flex: 0 1 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            /* gap: 10px; */
+            z-index: 0;
+    
+            .progressBar{
+                margin-top: 45px;
+                position: relative;
+                max-width: 400px;
+                width: 85%;
+                height: 30px;
+                background-color: rgba(240, 128, 128, 0.801);
+                z-index: 2;
+                border-radius: 50px;
+                .bar{
+                    height: 100%;
+                    width: 0%;
+                    background: linear-gradient(rgb(255, 102, 46), coral);
+                    border-radius: 50px;
+                    transition-duration: 1s;
+                    z-index: 3;
+                }
+                .popUpPoints{
+                    position: absolute;
+                    top: -10%;
+                    left: 0%;
+                    font-size: 24px;
+                    color: coral;
+                    transition-duration: 1.5s;
+                    z-index: 1;
+                    opacity: 0;
+                }
+                .star {
+                  display: inline-block;
+                  top: -38px;
+                  width: 40px;
+                  height: 40px;
+                  background: url('../img/star.png') 0 0/100% 100% no-repeat;
+                  position: absolute;
+                  opacity: 0.3;
+                  transition-duration: 0.5s;
+                  &.star_1{ left: 22% }
+                  &.star_2{ left: 56% }
+                  &.star_3{ left: 90% }
+                }
+            }
+            .taskBlock{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                width: 65%;
+                height: 60%;
+                transition-duration: 1s;
+                border-bottom: dashed 1px lightcoral;
+                .taskText{
+                    text-shadow: 0px 4px 3px rgba(194, 146, 128, 0.699);
+                    color: rgb(209, 107, 70);
+                }
+                .taskList{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    gap: 5%;
+                    @media screen and (max-device-width: 700px) { gap: 14%; }
+                    .taskItem{
+                        width: 40px;
+                        height: 40px;
+                        background-color: brown;
+                        left: 50px;
+                        top: 500px;
+                        border-radius: 50%;
+                        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
+                        transition-duration: 0.5s;
+                        .taskItemText{
+                            font-size: 16px;
+                            padding-left: 105%;
+                        }
+                    }
+                }
+            }
+        }
+    
+        &.botUI{
+            flex: 0 1 10%;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            z-index: 0;
+            border-top: dashed 0.5px coral;
+    
+            .btnRestart{
+                max-height: 80px;
+                max-width: 80px;
+                height: 80%;
+                width: 30%;
+                background: url('../img/btnRestart.png') 0 0/100% 100% no-repeat;
+                transition-duration: 0.6s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .btnBackToMenu{
+                max-height: 80px;
+                max-width: 80px;
+                height: 80%;
+                width: 30%;
+                background: url('../img/btnToMenu.png') 0 0/100% 100% no-repeat;
+                transition-duration: 0.6s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    }    
+    .gameField{
+        position: relative;
+        /* border: solid 1px grey; */
+        /* background-color: aqua; */
+    
+        .rock{
+            width: 100%;
+            height: 100%;
+            background: url('../img/bubble_1.png') 0 0/100% 100% no-repeat;
+            background: url('../img/bubble_2.png') 0 0/100% 100% no-repeat;
+            background: url('../img/bubble_3.png') 0 0/100% 100% no-repeat;
+            background: url('../img/bubble_4.png') 0 0/100% 100% no-repeat;
+            position: absolute;
+            left: 50px;
+            top: 500px;
+            border-radius: 50%;
+            transition-duration: 0.4s;
+            box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5); 
+        }
+    }
+    .lvlInform{
+        position: absolute;
+        left: 30%;
+        top: -50%;
+        height: 200px;
+        width: 40%;
+        background-color: aqua;
+        text-align: center;
+        transition-duration: 4s;
+    }
+}
+
+.gameOverWindow{
+    z-index: 1;
+    /* display: flex; */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: transparent;       
+    .subWindow{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+        max-width: 380px;
+        width: 80%;
+        height: 65%;
+        padding: 10% 5% 5% 3%;
+        background: url('../img/resultWindowBG_1.png') 0 0/100% 100% no-repeat;
+        .resultSection{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: column;
+            flex: 0 1 70%;
+            width: 100%;
+            .stars{
+                flex: 0 1 60%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                .star{
+                    background: url('../img/emptyStar.png') 0 0/100% 100% no-repeat;
+                    height: 75%;
+                    width: 32%;
+                    &.star_1{ margin-top: 10%; }
+                    &.star_2{ margin-bottom: 10%; }
+                    &.star_3{ margin-top: 10%; }
+                }
+            }
+            .score{
+                flex: 0 1 40%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                flex-direction: column;
+                .scoreText{
+                    flex: 0 1 30%;
+                    font-size: 20px;
+                }
+                .scoreCount{
+                    flex: 0 1 70%;
+                    background: url('../img/windowBG_2.png') 0 0/100% 100% no-repeat;
+                    height: 10%;
+                    width: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 34px;
+                    color: rgb(252, 101, 46);
+                }
+            }
+
+        }
+        .btnSection{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 100%;
+            flex: 0 1 30%;
+            .btn{
+                height: 60%;
+                width: 25%;
+                font-size: 18px;
+                transition-duration: 0.6s;
+                &:hover{
+                    transform: scale(1.2);
+                    cursor: pointer;
+                }
+                &.btnBackToMenu{
+                    background: url('../img/btnToMenu.png') 0 0/100% 100% no-repeat;                     
+                }
+                &.btnRestart{
+                    background: url('../img/btnRestart.png') 0 0/100% 100% no-repeat;                     
+                }
+                &.btnNextLvl{
+                    background: url('../img/btnNextLock.png') 0 0/100% 100% no-repeat;
+                    background: url('../img/btnNext.png') 0 0/100% 100% no-repeat;
+                    position: relative;
+                    .inform{
+                        position: absolute;
+                        transition-duration: 2.5s;
+                        font-size: 14px;
+                        display: none;
+                        left: 50%;
+                        top: 0;
+                    }
+                }
+            }
+        }
+        .header{
+            background: url('../img/headerBG_1.png') 0 0/100% 100% no-repeat;
+            position: absolute;
+            top: -8%;
+            left: 1%;
+            width: 96%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 10%;
+            text-shadow: 0px 4px 3px rgba(206, 171, 157, 0.418);
+            color:red;
+        }
+    }
+}
+
+.btn{
+    outline: none;
+    &:focus{ outline: none; }
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
