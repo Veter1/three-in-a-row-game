@@ -77,24 +77,26 @@ window.onerror = function(msg, url, lineNo, columnNo, error) { alert(msg+'\n'+ur
 // фукція при завантаженні гри
 async function onLoadApp(){
     console.log('Гру успішно завантажено');
-    // вияснюємо який пристрій у користувача
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        console.log('це телефон/планшет')
-        userDevice = 'phone';
-      } else {
-        console.log('це пк')
-        userDevice = 'pc';
-    }
     // попередні налаштування демонстрації ігрових вікон
     gameWindow.style = gameWindow.style.cssText + "display: none";
     gameOverWindow.style = gameOverWindow.style.cssText + "display: none";
     helpWindow.style = helpWindow.style.cssText + "display: none";
     menuWindow.style = menuWindow.style.cssText + "display: none";
     lvlMapWindow.style = lvlMapWindow.style.cssText + "display: none";
-    // loadingWindow.style = loadingWindow.style.cssText + "display: none";
-    changeVolume('onloadApp');
-    changeWindow(loadingWindow, menuWindow);
-    await updateUserProgress(true);
+
+    // вияснюємо який пристрій у користувача
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        console.log('це телефон/планшет')
+        userDevice = 'phone';
+        changeVolume('onloadApp');
+        changeWindow(loadingWindow, menuWindow);
+        await updateUserProgress(true);
+      } else {
+        console.log('це пк')
+        userDevice = 'pc';
+        loadingWindow.textContent = 'Це мобільна браузерна гра, будь ласка, використовуйте телефон або планшет';
+        loadingWindow.style = loadingWindow.style.cssText + "padding-bottom: 0;";
+    }
 }
 // перехід між вікнами
 async function changeWindow(currentWindow, newWindow){
